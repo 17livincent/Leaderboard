@@ -10,17 +10,24 @@ typedef std::chrono::time_point<std::chrono::system_clock> tp_clock;
 
 class Leaderboard {
     private:
-        int size = 20;
         // struct representing player name, score, and time
         typedef struct ranking {
             std::string playerName;
             std::string score;
             std::time_t time;
         } ranking;
+        // leaderboard size
+        int size = 20;
         // array of 20 rankings
-        ranking rankings[];
+        ranking* rankings[];
+        // scoring priority. 0 if lower score is better, 1 if higher score is better
+        std::bool score_priority;
 
     public:
+        Leaderboard(int size, bool score_priority) {
+            this->size = size;
+            this->score_priority = score_priority;
+        }
         void reinitialize(std::string filename) {
             /*
                 Repopulate the leaderboard from the given filename
@@ -69,25 +76,37 @@ class Leaderboard {
             /*
                 get player name at rank #
             */
-            return rankings[rank - 1].playerName;
+            return rankings[rank - 1]->playerName;
         }
         std::string getScore(int rank) {
             /*
                 get score at rank #
             */
-            return rankings[rank - 1].score;
+            return rankings[rank - 1]->score;
         }
         time_t getTime(int rank) {
             /*
                 get the time at rank #
             */
-            return rankings[rank - 1].time;
+            return rankings[rank - 1]->time;
         }
         std::string getTimeString(int rank) {
             /*
                 get the time at rank # in std::std::string form (dayname month day hr:day:sec year)
             */
-            return std::ctime(&(rankings[rank - 1].time));
+            return std::ctime(&(rankings[rank - 1]->time));
+        }
+        int getSize() {
+            return size;
+        }
+        int setSize(int size) {
+            this->size = s;
+        }
+        std::bool getScore_Priority() {
+            return score_priority;
+        }
+        void setScore_Priority(std::bool score_priority) {
+            this->score_priority = score_priority;
         }
 
 };
