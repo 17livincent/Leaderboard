@@ -8,8 +8,9 @@
 
 typedef std::chrono::time_point<std::chrono::system_clock> tp_clock;
 
+template <typename T>   // for score type (int, string, ...)
+
 class Leaderboard {
-    template <typename T>   // for score type (int, string, ...)
     private:
         // struct representing player name, score, and time
         typedef struct ranking {
@@ -19,15 +20,16 @@ class Leaderboard {
         } ranking;
         // leaderboard size
         int size = 20;
-        // array of 20 rankings
+        // array of rankings
         ranking* rankings[];
         // scoring priority. 0 if lower score is better, 1 if higher score is better
-        std::bool score_priority;
+        bool score_priority;
 
     public:
         Leaderboard(int size, bool score_priority) {
             this->size = size;
             this->score_priority = score_priority;
+            rankings[size];
         }
 
         void reinitialize(std::string filename) {
@@ -59,7 +61,7 @@ class Leaderboard {
             /*
                 Clear the leaderboard
             */
-
+            
         }
 
         ranking* createRanking(std::string pname, T newscore, time_t when) {
@@ -134,12 +136,12 @@ class Leaderboard {
             return size;
         }
         int setSize(int size) {
-            this->size = s;
+            this->size = size;
         }
-        std::bool getScore_Priority() {
+        bool getScore_Priority() {
             return score_priority;
         }
-        void setScore_Priority(std::bool score_priority) {
+        void setScore_Priority(bool score_priority) {
             this->score_priority = score_priority;
         }
 
