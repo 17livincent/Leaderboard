@@ -103,6 +103,7 @@ class Leaderboard {
             /*
                 If score A is "higher" than or equal to B, return 1. Otherwise return 0.
             */
+            int compare = 0;
             if(A == B) {
                 compare = 1;    
             }
