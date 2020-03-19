@@ -12,11 +12,9 @@
 <pre>
     <code>git clone git@github.com:17livincent/Leaderboard.git</code>
 </pre>
+<h2>Usage</h2>
 <p>
     To use this in your own program,simply <code>#include "leaderboard.h"</code> and use the various methods to interact with it.  <code>run.cpp</code> implements <code>leaderboard.h</code> for testing purposes.
-</p>
-<p>
-    
 </p>
 <h2>Features include:</h2>
 <ul>
