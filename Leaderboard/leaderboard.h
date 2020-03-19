@@ -1,5 +1,8 @@
-// leaderboard.h
-
+/*
+    leaderboard.h
+    By Vincent Li <vincentl@asu.edu>
+    Version 3/18/2020
+*/
 #include <stdio.h>
 #include <iostream>
 #include <chrono>
@@ -49,7 +52,7 @@ class Leaderboard {
         bool checkUpdate(T newscore) {
             /*
                 Checks if the leaderboard must be updated with the new score
-                Returns false, or true
+                Returns true or false
             */
             bool update = false;
             int i = 0;
@@ -140,7 +143,7 @@ class Leaderboard {
             this->rankings.clear();
         }
 
-        void reinitialize(std::string filename) {
+        void load(std::string filename = "saved_leaderboard.txt") {
             /*
                 Repopulate the leaderboard from the given filename
             */
