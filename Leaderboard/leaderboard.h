@@ -5,6 +5,7 @@
 #include <iostream>
 #include <chrono>
 #include <time.h> // or ctime
+#include <vector>
 
 typedef std::chrono::time_point<std::chrono::system_clock> tp_clock;
 
@@ -20,16 +21,111 @@ class Leaderboard {
         } ranking;
         // leaderboard size
         int size = 20;
-        // array of rankings
-        ranking* rankings[];
+        int currentSize = 0;
+        // vector of rankings
+        std::vector<ranking*> rankings;
         // scoring priority. 0 if lower score is better, 1 if higher score is better
         bool score_priority;
 
     public:
+        // completed
         Leaderboard(int size, bool score_priority) {
             this->size = size;
             this->score_priority = score_priority;
-            rankings[size];
+        }
+
+        // completed
+        bool checkUpdate(T newscore) {
+            /*
+                Checks if the leaderboard must be updated with the new score
+                Returns false, or true
+            */
+            bool update = false;
+            int i = 0;
+            while(i < size && !update) {
+                if(i >= currentSize) {  // found empty spot
+                    update = true;
+                }
+                else if(compareScores(this->rankings[i]->score, newscore)) {    // found a lower score
+                    update = true;
+                }
+                i++;
+            }
+        }
+
+        // completed
+        ranking* createRanking(std::string pname, T newscore, time_t when) {
+            /*
+                Creates a new ranking struct with the inputs and returns its address
+            */
+            ranking* r = new ranking;
+            r->playerName = pname;
+            r->score = newscore;
+            r->time = when;
+
+            return &r;
+        }
+
+        // completed
+        int addRanking(ranking* r) {
+            /*
+                Adds the new ranking into the correct spot 
+                and updates the rest of the leaderboard
+                If added, returns 1. Else returns 0.
+            */
+            int added = 0;
+            int i = 0;
+            while(i < this.size && added == 0) { // while within size and not added
+                // if the spot is empty
+                if(this->rankings[i] == NULL) {
+                    this->rankings.push_back(r);
+                    currentSize++;
+                    added = 1;
+                }
+                else if(compareScores(this->rankings[i]->score, r->score) == 1) {  // if rankings[i] is "higher" than r
+                    // place r at i
+                    this->rankings.insert(i, r);
+                    // delete the one that is beyond the rankings size
+                    delete this->*(rankings[size]);
+                    // resize to size
+                    this->rankings.resize(size);
+                    this->rankings.shrink_to_fit();
+                    added = 1;
+                }
+                i++;
+            }
+
+            return added;
+        }
+
+        // completed
+        int compareScores(T A, T B) {
+            /*
+                If score A is "higher" than or equal to B, return 1. Otherwise return 0.
+            */
+            if(A == B) {
+                compare = 1;    
+            }
+            else {
+                if(score_priority == 0) {   // priority for low
+                    compare = (A < B) ? 1:0;
+                }
+                else {
+                    compare = (A > B) ? 1:0;
+                }
+            }
+            return compare;
+        }
+
+        // completed
+        void clear() {
+            /*
+                Clear the leaderboard
+            */
+            for(int i = 0; i < this->size; i++) {
+                delete this->*(rankings[i]);
+            }
+            this->rankings.clear();
         }
 
         void reinitialize(std::string filename) {
@@ -57,89 +153,39 @@ class Leaderboard {
 
         }
 
-        void clear() {
-            /*
-                Clear the leaderboard
-            */
-            
-        }
-
-        ranking* createRanking(std::string pname, T newscore, time_t when) {
-            /*
-                Creates a new ranking struct with the inputs and returns its address
-            */
-            ranking newRanking;
-
-
-
-            return &newRanking;
-        }
-
-        int checkUpdate(T newscore) {
-            /*
-                Checks if the leaderboard must be updated with the new score
-                Returns 0 if false, 1 if true
-            */
-
-        }
-
-        int addRanking(ranking r) {
-            /*
-                Adds the new ranking into the correct spot 
-                and updates the rest of the leaderboard
-            */
-            int status = 0;
-
-
-            return status;
-        }
-
-        int compareScore(T A, T B) {
-            /*
-                If score A is "higher" than B, return 0. Otherwise return 1.
-            */
-            int compare;
-            if(score_priority == 0) {   // priority for low
-                compare = (A < B) ? 0:1;
-            }
-            else {
-                compare = (A > B) ? 0:1;
-            }
-            return compare;
-        }
-
+        // getters and setters
         std::string getPlayerName(int rank) {
             /*
                 get player name at rank #
             */
-            return rankings[rank - 1]->playerName;
+            return this->rankings[rank - 1]->playerName;
         }
-        std::string getScore(int rank) {
+        T getScore(int rank) {
             /*
                 get score at rank #
             */
-            return rankings[rank - 1]->score;
+            return this->rankings[rank - 1]->score;
         }
         time_t getTime(int rank) {
             /*
                 get the time at rank #
             */
-            return rankings[rank - 1]->time;
+            return this->rankings[rank - 1]->time;
         }
         std::string getTimeString(int rank) {
             /*
                 get the time at rank # in std::std::string form (dayname month day hr:day:sec year)
             */
-            return std::ctime(&(rankings[rank - 1]->time));
+            return std::ctime(&(this->rankings[rank - 1]->time));
         }
         int getSize() {
-            return size;
+            return this->size;
         }
         int setSize(int size) {
             this->size = size;
         }
         bool getScore_Priority() {
-            return score_priority;
+            return this->score_priority;
         }
         void setScore_Priority(bool score_priority) {
             this->score_priority = score_priority;
