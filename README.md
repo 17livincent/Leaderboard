@@ -2,8 +2,18 @@
 <p>
     This code implements a game leaderboard of a chosen size with fields player-name, score (templated), and a date and time.
 </p>
+<h2>Getting Leaderboard</h2>
+<pre>
+    <code>git clone https://github.com/17livincent/Leaderboard.git</code>
+</pre>
 <p>
-    To use this in your own program, simply <code>#include "leaderboard.h"</code> and use the various methods to interact with it.  <code>run.cpp</code> implements <code>leaderboard.h</code> for testing purposes.
+    Or
+</p>
+<pre>
+    <code>git clone git@github.com:17livincent/Leaderboard.git</code>
+</pre>
+<p>
+    To use this in your own program,simply <code>#include "leaderboard.h"</code> and use the various methods to interact with it.  <code>run.cpp</code> implements <code>leaderboard.h</code> for testing purposes.
 </p>
 <p>
     
