@@ -1,10 +1,9 @@
 // leaderboard.h
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <iostream>
 #include <chrono>
-#include <time.h> // or ctime
+#include <time.h>
 #include <vector>
 
 typedef std::chrono::time_point<std::chrono::system_clock> tp_clock;
@@ -19,11 +18,14 @@ class Leaderboard {
             T score;
             std::time_t time;
         } ranking;
+
         // leaderboard size
-        int size = 20;
-        int currentSize = 0;
+        int size;
+        int currentSize;
+        
         // vector of rankings
         std::vector<ranking*> rankings;
+        
         // scoring priority. 0 if lower score is better, 1 if higher score is better
         bool score_priority;
 
@@ -32,6 +34,15 @@ class Leaderboard {
         Leaderboard(int size, bool score_priority) {
             this->size = size;
             this->score_priority = score_priority;
+            currentSize = 0;
+        }
+
+        // completed
+        ~Leaderboard() {
+            save();
+            this->rankings.clear();
+            size = NULL;
+            currentSize = NULL;
         }
 
         // completed
@@ -136,7 +147,7 @@ class Leaderboard {
 
         }
 
-        void record(std::string filename) {
+        void save(std::string filename = "saved_leaderboard.txt") {
             /*
                 Prints leaderboard details into the given file 
                 (to be reinitialized from)
