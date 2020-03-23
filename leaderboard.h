@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <iostream>
 #include <chrono>
-#include <time.h>
 #include <vector>
 
 typedef std::chrono::time_point<std::chrono::system_clock> tp_clock;
@@ -19,11 +18,11 @@ class Leaderboard {
         typedef struct ranking {
             std::string playerName;
             T score;
-            std::time_t time;
+            tp_clock time;
         } ranking;
 
         // leaderboard size
-        int size;
+        int maxSize;
         int currentSize;
         
         // vector of rankings
@@ -35,17 +34,17 @@ class Leaderboard {
     public:
         // completed
         Leaderboard(int size, bool score_priority) {
-            this->size = size;
+            this->maxSize = size;
             this->score_priority = score_priority;
-            currentSize = 0;
+            this->currentSize = 0;
         }
 
         // completed
         ~Leaderboard() {
             save();
             this->rankings.clear();
-            size = NULL;
-            currentSize = NULL;
+            this->maxSize = 0;
+            this->currentSize = 0;
         }
 
         // completed
@@ -56,7 +55,7 @@ class Leaderboard {
             */
             bool update = false;
             int i = 0;
-            while(i < size && !update) {
+            while(i < maxSize && !update) {
                 if(i >= currentSize) {  // found empty spot
                     update = true;
                 }
@@ -68,16 +67,16 @@ class Leaderboard {
         }
 
         // completed
-        ranking* createRanking(std::string pname, T newscore, time_t when) {
+        ranking* createRanking(std::string pname, T newscore) {
             /*
                 Creates a new ranking struct with the inputs and returns its address
             */
             ranking* r = new ranking;
             r->playerName = pname;
             r->score = newscore;
-            r->time = when;
+            r->time = std::chrono::system_clock::now();
 
-            return &r;
+            return r;
         }
 
         // completed
@@ -87,24 +86,28 @@ class Leaderboard {
                 and updates the rest of the leaderboard
                 If added, returns 1. Else returns 0.
             */
-            int added = 0;
+            bool added = false;
             int i = 0;
-            while(i < this.size && added == 0) { // while within size and not added
-                // if the spot is empty
-                if(this->rankings[i] == NULL) {
+
+            while(i < this->currentSize && !added) { // while within size and not added
+                // if the spot is empty, or if the vector is empty
+                if(currentSize == 0 || this->rankings[i] == NULL) {
                     this->rankings.push_back(r);
-                    currentSize++;
-                    added = 1;
+                    this->currentSize = this->rankings.size();
+                    added = true;
                 }
                 else if(compareScores(this->rankings[i]->score, r->score) == 1) {  // if rankings[i] is "higher" than r
                     // place r at i
-                    this->rankings.insert(i, r);
-                    // delete the one that is beyond the rankings size
-                    delete this->*(rankings[size]);
-                    // resize to size
-                    this->rankings.resize(size);
-                    this->rankings.shrink_to_fit();
-                    added = 1;
+                    this->rankings.insert(rankings.begin() + i, r);
+                    this->currentSize = this->rankings.size();
+                    // delete the one that is beyond the rankings size, if there is one
+                    if(this->currentSize == this->maxSize) {
+                        delete this->rankings[this->currentSize];
+                        // resize to size
+                        this->rankings.resize(this->currentSize);
+                        this->rankings.shrink_to_fit();
+                    }
+                    added = true;
                 }
                 i++;
             }
@@ -137,10 +140,18 @@ class Leaderboard {
             /*
                 Clear the leaderboard
             */
-            for(int i = 0; i < this->size; i++) {
+            for(int i = 0; i < this->currentSize; i++) {
                 delete this->*(rankings[i]);
             }
             this->rankings.clear();
+            this->currentSize = 0;
+        }
+
+
+        void printLeaderboard() {
+            for(int i = 0; i < this->currentSize; i++) {
+
+            }
         }
 
         void load(std::string filename = "saved_leaderboard.txt") {
@@ -194,10 +205,10 @@ class Leaderboard {
             return std::ctime(&(this->rankings[rank - 1]->time));
         }
         int getSize() {
-            return this->size;
+            return this->currentSize;
         }
         int setSize(int size) {
-            this->size = size;
+            this->currentSize = size;
         }
         bool getScore_Priority() {
             return this->score_priority;
