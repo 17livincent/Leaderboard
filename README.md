@@ -2,7 +2,7 @@
 <p>
     This code implements a game leaderboard of a chosen size with fields player-name, score (templated), and a date and time.
 </p>
-<h2>Getting Leaderboard</h2>
+<h2>Getting the code</h2>
 <pre>
     <code>git clone https://github.com/17livincent/Leaderboard.git</code>
 </pre>
