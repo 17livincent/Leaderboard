@@ -1,8 +1,11 @@
 /*
     leaderboard.h
     By Vincent Li <vincentl@asu.edu>
-    Version 3/18/2020
 */
+#pragma once
+#ifndef GUARD
+#define GUARD
+
 #include <stdio.h>
 #include <iostream>
 #include <chrono>
@@ -218,3 +221,5 @@ class Leaderboard {
         }
 
 };
+
+#endif
