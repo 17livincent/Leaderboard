@@ -34,10 +34,12 @@ int main(int argc, char** argv) {
 
     clock = chrono::system_clock::now();
     string name = "First";
-    chrono::duration<double> score = chrono::duration<double>(5.0);
-    L.addRanking(L.createRanking("First", score));
-
     
+    chrono::duration<double> score = chrono::duration<double>(5.0);
+    L.addRanking(L.createRanking("First Player", score));
+    score = chrono::duration<double>(4.9);
+    L.addRanking(L.createRanking("Second Player", score));
+    //L.printLeaderboard();
 
     return 0;
 }

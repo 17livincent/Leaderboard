@@ -152,8 +152,11 @@ class Leaderboard {
 
 
         void printLeaderboard() {
+            std::cout << "Leaderboard: " << std::endl; 
+            ranking* r;
             for(int i = 0; i < this->currentSize; i++) {
-
+                r = this->rankings[i];
+                std::cout << i + 1 << ":\t" << r->playerName << "\t" << r->score << "\t" << r->time.count() << std::endl;
             }
         }
 
