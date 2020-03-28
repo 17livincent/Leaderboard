@@ -25,7 +25,7 @@
         A choosable and updatable <code>size</code> for the leaderboard, as well as the option to clear the leaderboard.
     </li>
     <li>
-        A templated <code>score</code> field in the ranking to be able to hold any type of data (time_point, int, string, ...).
+        A templated <code>score</code> field in the ranking to be able to hold any type of data (int, double, string, ...).
     </li>
     <li>
         The capability of specifying the hierarchy of the scoring, such as whether a numerically greater/lesser score is higher or lower.

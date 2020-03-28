@@ -35,11 +35,14 @@ class Leaderboard {
         // scoring priority. 0 if lower score is better, 1 if higher score is better
         bool score_priority;
 
+        std::string scoreUnits; 
+
     public:
         // completed
-        Leaderboard(int size, bool score_priority) {
+        Leaderboard(int size, bool score_priority, std::string units) {
             this->maxSize = size;
             this->score_priority = score_priority;
+            this->scoreUnits = units;
             this->currentSize = 0;
         }
 
@@ -150,7 +153,7 @@ class Leaderboard {
                 Clear the leaderboard
             */
             for(int i = 0; i < this->currentSize; i++) {
-                delete this->*(rankings[i]);
+                delete this->rankings[i];
             }
             this->rankings.clear();
             this->currentSize = 0;
@@ -164,7 +167,7 @@ class Leaderboard {
             for(int i = 0; i < this->currentSize; i++) {
                 r = this->rankings[i];
                 t = std::chrono::system_clock::to_time_t(r->time);
-                std::cout << i + 1 << ":\t" << r->playerName << "\t" << r->score.count() << "\t" << std::ctime(&t);
+                std::cout << i + 1 << ":\t" << r->playerName << "\t" << r->score << " " << scoreUnits << "\t" << std::ctime(&t);
             }
         }
 
