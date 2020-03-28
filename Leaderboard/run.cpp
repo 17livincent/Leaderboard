@@ -5,6 +5,7 @@
 */
 #include "leaderboard.h"
 #include <time.h>
+#include <stdlib.h>
 
 typedef std::chrono::duration<double> millis_type;
 
@@ -21,25 +22,47 @@ int main(int argc, char** argv) {
         
     */
 
+    srand(time(NULL));
+
     /* 
-        Creating a Leaderboard of size 20 for the Reaction Speed Game,
+        Creating a Leaderboard of size 10 for the Reaction Speed Game,
         in which the score is a number of seconds to the thousandths,
         and a better score is a smaller score
     */
 
-    chrono::system_clock::time_point clock;
-
     // Leaderboard<score type> L(size, score_priority)
-    Leaderboard<millis_type> L(20, 0);
+    Leaderboard<millis_type> L(10, 0);
+    chrono::system_clock::time_point clock = chrono::system_clock::now();
 
-    clock = chrono::system_clock::now();
-    string name = "First";
+    // add 10 rankings
+    cout << "Add 10 scores" << endl;
+    L.addRanking(L.createRanking("Player 1", chrono::duration<double>(rand() % 10 + 1)));
+    L.addRanking(L.createRanking("Player 2", chrono::duration<double>(rand() % 10 + 1)));
+    L.addRanking(L.createRanking("Player 3", chrono::duration<double>(rand() % 10 + 1)));
+    L.addRanking(L.createRanking("Player 4", chrono::duration<double>(rand() % 10 + 1)));
+    L.addRanking(L.createRanking("Player 5", chrono::duration<double>(rand() % 10 + 1)));
+    L.addRanking(L.createRanking("Player 6", chrono::duration<double>(rand() % 10 + 1)));
+    L.addRanking(L.createRanking("Player 7", chrono::duration<double>(rand() % 10 + 1)));
+    L.addRanking(L.createRanking("Player 8", chrono::duration<double>(rand() % 10 + 1)));
+    L.addRanking(L.createRanking("Player 9", chrono::duration<double>(rand() % 10 + 1)));
+    L.addRanking(L.createRanking("Player 10", chrono::duration<double>(rand() % 10 + 1)));
+
+    L.printLeaderboard();
+
+    // add 10 more
+    cout << "Add 10 more scores" << endl;
+    L.addRanking(L.createRanking("Player 11", chrono::duration<double>(rand() % 10 + 1)));
+    L.addRanking(L.createRanking("Player 12", chrono::duration<double>(rand() % 10 + 1)));
+    L.addRanking(L.createRanking("Player 13", chrono::duration<double>(rand() % 10 + 1)));
+    L.addRanking(L.createRanking("Player 14", chrono::duration<double>(rand() % 10 + 1)));
+    L.addRanking(L.createRanking("Player 15", chrono::duration<double>(rand() % 10 + 1)));
+    L.addRanking(L.createRanking("Player 16", chrono::duration<double>(rand() % 10 + 1)));
+    L.addRanking(L.createRanking("Player 17", chrono::duration<double>(rand() % 10 + 1)));
+    L.addRanking(L.createRanking("Player 18", chrono::duration<double>(rand() % 10 + 1)));
+    L.addRanking(L.createRanking("Player 19", chrono::duration<double>(rand() % 10 + 1)));
+    L.addRanking(L.createRanking("Player 20", chrono::duration<double>(rand() % 10 + 1)));
     
-    chrono::duration<double> score = chrono::duration<double>(5.0);
-    L.addRanking(L.createRanking("First Player", score));
-    score = chrono::duration<double>(4.9);
-    L.addRanking(L.createRanking("Second Player", score));
-    //L.printLeaderboard();
+    L.printLeaderboard();
 
     return 0;
 }

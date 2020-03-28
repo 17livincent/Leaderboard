@@ -10,6 +10,7 @@
 #include <iostream>
 #include <chrono>
 #include <vector>
+#include <ctime>
 
 typedef std::chrono::time_point<std::chrono::system_clock> tp_clock;
 
@@ -83,39 +84,44 @@ class Leaderboard {
         }
 
         // completed
-        int addRanking(ranking* r) {
+        void addRanking(ranking* r) {
             /*
                 Adds the new ranking into the correct spot 
                 and updates the rest of the leaderboard
                 If added, returns 1. Else returns 0.
             */
-            bool added = false;
-            int i = 0;
-
-            while(i < this->currentSize && !added) { // while within size and not added
-                // if the spot is empty, or if the vector is empty
-                if(currentSize == 0 || this->rankings[i] == NULL) {
-                    this->rankings.push_back(r);
-                    this->currentSize = this->rankings.size();
-                    added = true;
-                }
-                else if(compareScores(this->rankings[i]->score, r->score) == 1) {  // if rankings[i] is "higher" than r
-                    // place r at i
-                    this->rankings.insert(rankings.begin() + i, r);
-                    this->currentSize = this->rankings.size();
-                    // delete the one that is beyond the rankings size, if there is one
-                    if(this->currentSize == this->maxSize) {
-                        delete this->rankings[this->currentSize];
-                        // resize to size
-                        this->rankings.resize(this->currentSize);
-                        this->rankings.shrink_to_fit();
-                    }
-                    added = true;
-                }
-                i++;
+            int added = 0;
+            if(this->currentSize == 0) {  // if the leaderboard is empty
+                this->rankings.push_back(r);
+                this->currentSize = this->rankings.size();
+                added = 1;
             }
-
-            return added;
+            else if(this->currentSize > 0) {  // not empty
+                int i = 0;
+                while(i < this->currentSize && added != 1) {
+                    if(compareScores(this->rankings[i]->score, r->score) == 1) {  // if rankings[i] is "higher" than r
+                        // place r at i
+                        this->rankings.insert(this->rankings.begin() + i, r);
+                        this->currentSize = this->rankings.size();
+                        added = 1;
+                    }
+                    i++;
+                }
+            }
+            if(added == 0) {    // add to the end
+                this->rankings.push_back(r);
+                this->currentSize = this->rankings.size();
+                added = 1;
+            }
+            // delete the one that is beyond the rankings size, if there is one
+            if(this->currentSize > this->maxSize) {
+                // delte the last one
+                delete this->rankings[this->currentSize - 1];
+                this->rankings.erase(this->rankings.begin() + this->maxSize);
+                // resize to maxSize
+                this->rankings.resize(this->maxSize);
+                this->currentSize = this->rankings.size();
+            }
         }
 
         // completed
@@ -150,13 +156,15 @@ class Leaderboard {
             this->currentSize = 0;
         }
 
-
+        // completed
         void printLeaderboard() {
-            std::cout << "Leaderboard: " << std::endl; 
+            std::cout << "Leaderboard: " << "(" << this->currentSize << ")" << std::endl; 
             ranking* r;
+            std::time_t t;
             for(int i = 0; i < this->currentSize; i++) {
                 r = this->rankings[i];
-                std::cout << i + 1 << ":\t" << r->playerName << "\t" << r->score << "\t" << r->time.count() << std::endl;
+                t = std::chrono::system_clock::to_time_t(r->time);
+                std::cout << i + 1 << ":\t" << r->playerName << "\t" << r->score.count() << "\t" << std::ctime(&t);
             }
         }
 
