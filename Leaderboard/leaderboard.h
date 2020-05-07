@@ -34,8 +34,11 @@ class Leaderboard {
         
         // scoring priority. 0 if lower score is better, 1 if higher score is better
         bool score_priority;
-
+        // unit of score
         std::string scoreUnits; 
+
+        // file of save file
+        std::string saveFile = "saved_leaderboard.txt";
 
     public:
         // completed
@@ -137,7 +140,7 @@ class Leaderboard {
                 compare = 1;    
             }
             else {
-                if(score_priority == 0) {   // priority for low
+                if(score_priority == 1) {   // priority for low
                     compare = (A < B) ? 1:0;
                 }
                 else {
@@ -161,39 +164,33 @@ class Leaderboard {
 
         // completed
         void printLeaderboard() {
-            std::cout << "Leaderboard: " << "(" << this->currentSize << ")" << std::endl; 
+            std::string print = "";
+            print += "Leaderboard: (" + std::to_string(this->currentSize) + ")\n"; 
             ranking* r;
             std::time_t t;
             for(int i = 0; i < this->currentSize; i++) {
                 r = this->rankings[i];
                 t = std::chrono::system_clock::to_time_t(r->time);
-                std::cout << i + 1 << ":\t" << r->playerName << "\t" << r->score << " " << scoreUnits << "\t" << std::ctime(&t);
+                print += std::to_string(i + 1) + ":\t" + r->playerName + "\t" + std::to_string(r->score) + " " + this->scoreUnits + "\t" + std::ctime(&t);
             }
+            std::cout << print << std::endl;
         }
 
-        void load(std::string filename = "saved_leaderboard.txt") {
+        void load() {
             /*
                 Repopulate the leaderboard from the given filename
             */
 
+
         }
 
-        void save(std::string filename = "saved_leaderboard.txt") {
+        void save() {
             /*
                 Prints leaderboard details into the given file 
                 (to be reinitialized from)
             */
 
             
-        }
-
-        void reSort() {
-            /*
-                Resort the leaderboard and 
-                free/delete any rankings past the leaderboard size
-            */
-
-
         }
 
         // getters and setters

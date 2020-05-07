@@ -1,21 +1,6 @@
-20 0
+5 0
 Player1 score date
 Player2 score date
 Player3 score date
 Player4 score date
 Player5 score date
-Player6 score date
-Player7 score date
-Player8 score date
-Player9 score date
-Player10 score date
-Player11 score date
-Player12 score date
-Player13 score date
-Player14 score date
-Player15 score date
-Player16 score date
-Player17 score date
-Player18 score date
-Player19 score date
-Player20 score date

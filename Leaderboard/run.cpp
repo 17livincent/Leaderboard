@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
     cout << endl << "Clear" << endl;
     L.clear();
 
-    L.printLeaderboard();
+   L.printLeaderboard();
 
 
 
