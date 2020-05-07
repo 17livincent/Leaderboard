@@ -180,8 +180,6 @@ class Leaderboard {
             /*
                 Repopulate the leaderboard from the given filename
             */
-
-
         }
 
         void save() {
@@ -189,8 +187,6 @@ class Leaderboard {
                 Prints leaderboard details into the given file 
                 (to be reinitialized from)
             */
-
-            
         }
 
         // getters and setters
