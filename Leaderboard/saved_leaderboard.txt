@@ -1,6 +1,0 @@
-5 0
-Player1 score date
-Player2 score date
-Player3 score date
-Player4 score date
-Player5 score date

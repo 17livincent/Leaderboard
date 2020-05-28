@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
     L.addRanking(L.createRanking("Player 3", chrono::duration<double>(rand() % 20 + 1).count()));
     L.addRanking(L.createRanking("Player 4", chrono::duration<double>(rand() % 20 + 1).count()));
     L.addRanking(L.createRanking("Player 5", chrono::duration<double>(rand() % 20 + 1).count()));
-
+    L.info();
     L.printLeaderboard();
 
     // add 5 more
@@ -51,14 +51,14 @@ int main(int argc, char** argv) {
     L.addRanking(L.createRanking("Player 8", chrono::duration<double>(rand() % 20 + 1).count()));
     L.addRanking(L.createRanking("Player 9", chrono::duration<double>(rand() % 20 + 1).count()));
     L.addRanking(L.createRanking("Player 10", chrono::duration<double>(rand() % 20 + 1).count()));
-    
+    L.info();
     L.printLeaderboard();
 
     // clear
     cout << endl << "Clear" << endl;
     L.clear();
-
-   L.printLeaderboard();
+    L.info();
+    L.printLeaderboard();
 
 
 

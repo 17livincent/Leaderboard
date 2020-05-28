@@ -58,6 +58,15 @@ class Leaderboard {
         }
 
         // completed
+        void info() {
+            /*
+                Prints the max size, current size, and score priority of the leaderboard.
+            */ 
+            std::string sp = (this->score_priority == 0) ? "LOW" : "HIGH";
+            std::cout << "INFO:" << "\n\tMax size: " << this->maxSize << "\n\tCurrent size: " << this->currentSize << "\n\tScore priority: " << sp << std::endl;
+        }
+
+        // completed
         bool checkUpdate(T newscore) {
             /*
                 Checks if the leaderboard must be updated with the new score
@@ -74,6 +83,7 @@ class Leaderboard {
                 }
                 i++;
             }
+            return update;
         }
 
         // completed
@@ -121,7 +131,7 @@ class Leaderboard {
             }
             // delete the one that is beyond the rankings size, if there is one
             if(this->currentSize > this->maxSize) {
-                // delte the last one
+                // delete the last one
                 delete this->rankings[this->currentSize - 1];
                 this->rankings.erase(this->rankings.begin() + this->maxSize);
                 // resize to maxSize
@@ -176,6 +186,7 @@ class Leaderboard {
             std::cout << print << std::endl;
         }
 
+        // in progress
         void load() {
             /*
                 Repopulate the leaderboard from the given filename
@@ -183,6 +194,7 @@ class Leaderboard {
 
         }
 
+        // in progress
         void save() {
             /*
                 Prints leaderboard details into the given file 
@@ -210,23 +222,11 @@ class Leaderboard {
             */
             return this->rankings[rank - 1]->time;
         }
-        std::string getTimeString(int rank) {
-            /*
-                get the time at rank # in std::std::string form (dayname month day hr:day:sec year)
-            */
-            return std::ctime(&(this->rankings[rank - 1]->time));
-        }
         int getSize() {
             return this->currentSize;
         }
-        int setSize(int size) {
-            this->currentSize = size;
-        }
-        bool getScore_Priority() {
+        bool getScorePriority() {
             return this->score_priority;
-        }
-        void setScore_Priority(bool score_priority) {
-            this->score_priority = score_priority;
         }
 
 };
