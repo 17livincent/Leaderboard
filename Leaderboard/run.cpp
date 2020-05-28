@@ -34,6 +34,8 @@ int main(int argc, char** argv) {
     Leaderboard<double> L(5, 0, "s");
     chrono::system_clock::time_point clock = chrono::system_clock::now();
 
+    L.info();
+
     // add 5 rankings
     cout << endl << "Add 5 scores" << endl;
     L.addRanking(L.createRanking("Player 1", chrono::duration<double>(rand() % 20 + 1).count()));
